@@ -19,7 +19,13 @@ steps:
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(build.sourcesdirectory)/bin/Release/'
-    ArtifactName: 'drop'
+    ArtifactName: 'release'
+    publishLocation: 'Container'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(build.sourcesdirectory)/'
+    ArtifactName: 'sources'
     publishLocation: 'Container'
     
 - task: ArchiveFiles@2
