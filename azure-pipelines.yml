@@ -21,3 +21,24 @@ steps:
     PathtoPublish: '$(build.sourcesdirectory)/bin/Release/'
     ArtifactName: 'drop'
     publishLocation: 'Container'
+    
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(build.sourcesdirectory)/bin/Release/netcoreapp2.2/'
+    includeRootFolder: true
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    replaceExistingArchive: true
+
+
+
+
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'kohtih-internal'
+    appType: 'webApp'
+    WebAppName: 'manojbale-appservice'
+    packageForLinux: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    enableCustomDeployment: true
+    DeploymentType: 'zipDeploy'
